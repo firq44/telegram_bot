@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 interface LicensePlateInputProps {
@@ -7,11 +7,16 @@ interface LicensePlateInputProps {
   onSubmit: () => void;
 }
 
-export const LicensePlateInput = ({ value, onChange, onSubmit }: LicensePlateInputProps) => {
+export const LicensePlateInput = ({
+  value,
+  onChange,
+  onSubmit,
+}: LicensePlateInputProps) => {
   const [letters, setLetters] = useState("");
   const [numbers, setNumbers] = useState("");
-  const lettersRef = useRef<HTMLInputElement>(null);
-  const numbersRef = useRef<HTMLInputElement>(null);
+
+  const lettersRef = useRef<HTMLInputElement | null>(null);
+  const numbersRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     // Parse existing value if provided
@@ -26,16 +31,16 @@ export const LicensePlateInput = ({ value, onChange, onSubmit }: LicensePlateInp
 
   useEffect(() => {
     // Update parent value
-    const combined = letters && numbers ? `${letters} ${numbers}` : letters || numbers;
+    const combined =
+      letters && numbers ? `${letters} ${numbers}` : letters || numbers;
     onChange(combined);
   }, [letters, numbers, onChange]);
 
   const handleLettersChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
-    
     if (input.length <= 3) {
       setLetters(input);
-      
+
       // Auto-focus numbers input only after 3 letters
       if (input.length === 3) {
         setTimeout(() => numbersRef.current?.focus(), 0);
@@ -45,7 +50,6 @@ export const LicensePlateInput = ({ value, onChange, onSubmit }: LicensePlateInp
 
   const handleNumbersChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value.toUpperCase().replace(/[^0-9A-Z]/g, "");
-    
     if (input.length <= 5) {
       setNumbers(input);
     }
@@ -71,58 +75,57 @@ export const LicensePlateInput = ({ value, onChange, onSubmit }: LicensePlateInp
   };
 
   return (
-    <div className="flex items-center gap-0 bg-gradient-to-b from-[#e8e8e8] to-[#d4d4d4] border-[3px] border-black rounded-md overflow-hidden shadow-[0_4px_0_0_rgba(0,0,0,0.3),0_8px_16px_-4px_rgba(0,0,0,0.4)] relative">
-      {/* Polish Flag Section */}
-      <div className="w-14 h-[70px] flex-shrink-0 border-r-2 border-black bg-[#0033A0] flex flex-col items-center justify-between py-2">
-        {/* Polish flag stripes */}
-        <div className="flex flex-col w-9 h-6 border border-black/20 rounded-sm overflow-hidden">
-          <div className="h-1/2 bg-white"></div>
-          <div className="h-1/2 bg-[#DC143C]"></div>
+    <div className={cn("space-y-2 w-full")}>
+      <label className="block text-sm font-medium text-slate-700">
+        License Plate Number
+      </label>
+
+      <div className="flex justify-center">
+        <div className="rounded-xl shadow-xl border-[3px] border-black bg-gradient-to-b from-slate-100 to-slate-200 px-0 py-0">
+          <div className="flex h-20 items-stretch overflow-hidden">
+            {/* Flag / PL section */}
+            <div className="flex flex-col items-center justify-center w-16 bg-blue-700 text-white border-r border-black">
+              <div className="w-8 h-4 border border-slate-300 overflow-hidden mb-1">
+                <div className="h-1/2 w-full bg-white" />
+                <div className="h-1/2 w-full bg-red-600" />
+              </div>
+              <span className="text-xs font-semibold tracking-wide">PL</span>
+            </div>
+
+            {/* Letters */}
+            <div className="flex items-center justify-center px-3">
+              <input
+                ref={lettersRef}
+                value={letters}
+                onChange={handleLettersChange}
+                onKeyDown={handleLettersKeyDown}
+                className="bg-transparent outline-none border-none font-extrabold uppercase text-black text-center tracking-[0.18em] text-[2.6rem] leading-none w-[130px]"
+                style={{
+                  transform: letters.length === 3 ? "scale(0.86)" : "scale(1)",
+                  transformOrigin: "left center",
+                }}
+                inputMode="text"
+                maxLength={3}
+              />
+            </div>
+
+            {/* Divider */}
+            <div className="w-px bg-slate-400 my-3" />
+
+            {/* Numbers */}
+            <div className="flex items-center justify-center px-3">
+              <input
+                ref={numbersRef}
+                value={numbers}
+                onChange={handleNumbersChange}
+                onKeyDown={handleNumbersKeyDown}
+                className="bg-transparent outline-none border-none font-extrabold uppercase text-slate-500 text-center tracking-[0.18em] text-[2.6rem] leading-none w-[170px]"
+                maxLength={5}
+                inputMode="text"
+              />
+            </div>
+          </div>
         </div>
-        {/* PL text */}
-        <span className="text-white text-base font-bold tracking-wide">PL</span>
-      </div>
-
-      {/* Letters Input */}
-      <div className="flex-shrink-0 px-3">
-        <input
-          ref={lettersRef}
-          type="text"
-          value={letters}
-          onChange={handleLettersChange}
-          onKeyDown={handleLettersKeyDown}
-          placeholder="SR"
-          maxLength={3}
-          className="w-[70px] h-[70px] text-[42px] font-black text-black bg-transparent text-center outline-none placeholder:text-black/25 tracking-tighter"
-          style={{ 
-            fontFamily: "'Arial Black', 'Helvetica', sans-serif",
-            textShadow: '0 2px 4px rgba(0,0,0,0.15)'
-          }}
-        />
-      </div>
-
-      {/* Separator */}
-      <div className="h-[70px] flex items-center">
-        <div className="w-[2px] h-14 bg-black/10"></div>
-      </div>
-
-      {/* Numbers Input */}
-      <div className="flex-1 px-3 min-w-[140px]">
-        <input
-          ref={numbersRef}
-          type="text"
-          value={numbers}
-          onChange={handleNumbersChange}
-          onKeyDown={handleNumbersKeyDown}
-          placeholder="4657C"
-          maxLength={5}
-          className="w-full h-[70px] text-[42px] font-black text-black bg-transparent text-center outline-none placeholder:text-black/25 tracking-wider"
-          style={{ 
-            fontFamily: "'Arial Black', 'Helvetica', sans-serif",
-            textShadow: '0 2px 4px rgba(0,0,0,0.15)',
-            letterSpacing: '0.08em'
-          }}
-        />
       </div>
     </div>
   );
