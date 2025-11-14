@@ -41,7 +41,6 @@ export const LicensePlateInput = ({
     if (input.length <= 3) {
       setLetters(input);
 
-      // Auto-focus numbers input only after 3 letters
       if (input.length === 3) {
         setTimeout(() => numbersRef.current?.focus(), 0);
       }
@@ -93,13 +92,13 @@ export const LicensePlateInput = ({
             </div>
 
             {/* Letters */}
-            <div className="flex items-center justify-center px-3">
+            <div className="flex items-center justify-center px-2">
               <input
                 ref={lettersRef}
                 value={letters}
                 onChange={handleLettersChange}
                 onKeyDown={handleLettersKeyDown}
-                className="bg-transparent outline-none border-none font-extrabold uppercase text-black text-center tracking-[0.18em] text-[2.6rem] leading-none w-[130px]"
+                className="bg-transparent outline-none border-none font-extrabold uppercase text-black text-center tracking-[0.18em] text-[2.6rem] leading-none w-[105px]"
                 style={{
                   transform: letters.length === 3 ? "scale(0.86)" : "scale(1)",
                   transformOrigin: "left center",
@@ -113,13 +112,13 @@ export const LicensePlateInput = ({
             <div className="w-px bg-slate-400 my-3" />
 
             {/* Numbers */}
-            <div className="flex items-center justify-center px-3">
+            <div className="flex items-center justify-center px-4">
               <input
                 ref={numbersRef}
                 value={numbers}
                 onChange={handleNumbersChange}
                 onKeyDown={handleNumbersKeyDown}
-                className="bg-transparent outline-none border-none font-extrabold uppercase text-slate-500 text-center tracking-[0.18em] text-[2.6rem] leading-none w-[170px]"
+                className="bg-transparent outline-none border-none font-extrabold uppercase text-slate-500 text-center tracking-[0.18em] text-[2.6rem] leading-none w-[210px]"
                 maxLength={5}
                 inputMode="text"
               />
