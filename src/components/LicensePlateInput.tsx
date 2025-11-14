@@ -75,15 +75,13 @@ export const LicensePlateInput = ({
 
   return (
     <div className={cn("space-y-2 w-full")}>
-      <label className="block text-sm font-medium text-slate-700">
-        License Plate Number
-      </label>
+      {/* Оставляем только внешний заголовок на странице, здесь label убран */}
 
       <div className="flex justify-center">
-        <div className="rounded-xl shadow-xl border-[3px] border-black bg-gradient-to-b from-slate-100 to-slate-200 px-0 py-0">
-          <div className="flex h-20 items-stretch overflow-hidden">
+        <div className="rounded-xl shadow-xl border-[3px] border-black bg-gradient-to-b from-slate-100 to-slate-200 px-0 py-0 overflow-hidden">
+          <div className="flex h-20 items-stretch">
             {/* Flag / PL section */}
-            <div className="flex flex-col items-center justify-center w-16 bg-blue-700 text-white border-r border-black">
+            <div className="flex flex-col items-center justify-center w-16 bg-blue-700 text-white border-r border-black rounded-l-xl">
               <div className="w-8 h-4 border border-slate-300 overflow-hidden mb-1">
                 <div className="h-1/2 w-full bg-white" />
                 <div className="h-1/2 w-full bg-red-600" />
@@ -105,6 +103,7 @@ export const LicensePlateInput = ({
                 }}
                 inputMode="text"
                 maxLength={3}
+                placeholder="SS"
               />
             </div>
 
@@ -121,6 +120,7 @@ export const LicensePlateInput = ({
                 className="bg-transparent outline-none border-none font-extrabold uppercase text-slate-500 text-center tracking-[0.18em] text-[2.6rem] leading-none w-[210px]"
                 maxLength={5}
                 inputMode="text"
+                placeholder="4657C"
               />
             </div>
           </div>
