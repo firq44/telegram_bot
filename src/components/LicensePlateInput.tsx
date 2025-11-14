@@ -19,7 +19,6 @@ export const LicensePlateInput = ({
   const numbersRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    // Parse existing value if provided
     if (value) {
       const match = value.match(/^([A-Z]{2,3})\s*(.*)$/);
       if (match) {
@@ -30,7 +29,6 @@ export const LicensePlateInput = ({
   }, []);
 
   useEffect(() => {
-    // Update parent value
     const combined =
       letters && numbers ? `${letters} ${numbers}` : letters || numbers;
     onChange(combined);
@@ -75,13 +73,13 @@ export const LicensePlateInput = ({
 
   return (
     <div className={cn("space-y-2 w-full")}>
-      {/* Оставляем только внешний заголовок на странице, здесь label убран */}
+      {/* Внешний заголовок рендирится на странице, здесь label не дублируем */}
 
       <div className="flex justify-center">
-        <div className="rounded-xl shadow-xl border-[3px] border-black bg-gradient-to-b from-slate-100 to-slate-200 px-0 py-0 overflow-hidden">
+        <div className="rounded-xl shadow-xl border-[3px] border-black px-0 py-0 overflow-hidden">
           <div className="flex h-20 items-stretch">
-            {/* Flag / PL section */}
-            <div className="flex flex-col items-center justify-center w-16 bg-blue-700 text-white border-r border-black rounded-l-xl">
+            {/* Синий блок PL — без просветов, упирается в рамку */}
+            <div className="flex flex-col items-center justify-center w-16 bg-blue-700 text-white border-r border-black">
               <div className="w-8 h-4 border border-slate-300 overflow-hidden mb-1">
                 <div className="h-1/2 w-full bg-white" />
                 <div className="h-1/2 w-full bg-red-600" />
@@ -89,39 +87,43 @@ export const LicensePlateInput = ({
               <span className="text-xs font-semibold tracking-wide">PL</span>
             </div>
 
-            {/* Letters */}
-            <div className="flex items-center justify-center px-2">
-              <input
-                ref={lettersRef}
-                value={letters}
-                onChange={handleLettersChange}
-                onKeyDown={handleLettersKeyDown}
-                className="bg-transparent outline-none border-none font-extrabold uppercase text-black text-center tracking-[0.18em] text-[2.6rem] leading-none w-[105px]"
-                style={{
-                  transform: letters.length === 3 ? "scale(0.86)" : "scale(1)",
-                  transformOrigin: "left center",
-                }}
-                inputMode="text"
-                maxLength={3}
-                placeholder="SS"
-              />
-            </div>
+            {/* Серая часть номера с градиентом */}
+            <div className="flex-1 bg-gradient-to-b from-slate-100 to-slate-200 flex items-stretch">
+              {/* Letters */}
+              <div className="flex items-center justify-center px-2">
+                <input
+                  ref={lettersRef}
+                  value={letters}
+                  onChange={handleLettersChange}
+                  onKeyDown={handleLettersKeyDown}
+                  className="bg-transparent outline-none border-none font-extrabold uppercase text-black text-center tracking-[0.18em] text-[2.6rem] leading-none w-[105px] placeholder:text-slate-400"
+                  style={{
+                    transform:
+                      letters.length === 3 ? "scale(0.86)" : "scale(1)",
+                    transformOrigin: "left center",
+                  }}
+                  inputMode="text"
+                  maxLength={3}
+                  placeholder="SS"
+                />
+              </div>
 
-            {/* Divider */}
-            <div className="w-px bg-slate-400 my-3" />
+              {/* Divider */}
+              <div className="w-px bg-slate-400 my-3" />
 
-            {/* Numbers */}
-            <div className="flex items-center justify-center px-4">
-              <input
-                ref={numbersRef}
-                value={numbers}
-                onChange={handleNumbersChange}
-                onKeyDown={handleNumbersKeyDown}
-                className="bg-transparent outline-none border-none font-extrabold uppercase text-slate-500 text-center tracking-[0.18em] text-[2.6rem] leading-none w-[210px]"
-                maxLength={5}
-                inputMode="text"
-                placeholder="4657C"
-              />
+              {/* Numbers */}
+              <div className="flex items-center justify-center px-4">
+                <input
+                  ref={numbersRef}
+                  value={numbers}
+                  onChange={handleNumbersChange}
+                  onKeyDown={handleNumbersKeyDown}
+                  className="bg-transparent outline-none border-none font-extrabold uppercase text-black text-center tracking-[0.18em] text-[2.6rem] leading-none w-[210px] placeholder:text-slate-400"
+                  maxLength={5}
+                  inputMode="text"
+                  placeholder="4657C"
+                />
+              </div>
             </div>
           </div>
         </div>
